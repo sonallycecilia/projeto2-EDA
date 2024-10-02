@@ -1,16 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "estruturas/vetor_dinamico.h"
+#include "vetor_dinamico.h"
 
 // Função para inicializar o vetor dinâmico
-void inicializar(VetorDinamico *vetor, int capacidade_inicial) {
+void iniciarVetorDinamico(VetorDinamico *vetor, int capacidade_inicial) {
     vetor->dados = (int*) malloc(capacidade_inicial * sizeof(int));  // Aloca memória inicial
     vetor->tamanho = 0;  // Nenhum elemento adicionado ainda
     vetor->capacidade = capacidade_inicial;  // Define a capacidade inicial
 }
 
 // Função para adicionar um elemento ao vetor dinâmico
-void adicionar(VetorDinamico *vetor, int valor) {
+void addVetorDinamico(VetorDinamico *vetor, int valor) {
     // Verifica se é necessário redimensionar (dobrar a capacidade)
     if (vetor->tamanho == vetor->capacidade) {
         vetor->capacidade *= 2;  // Dobra a capacidade
@@ -21,7 +21,7 @@ void adicionar(VetorDinamico *vetor, int valor) {
 }
 
 // Função para liberar a memória alocada para o vetor dinâmico
-void liberar(VetorDinamico *vetor) {
+void liberarVetorDinamico(VetorDinamico *vetor) {
     free(vetor->dados);  // Libera a memória
     vetor->dados = NULL;  // Define o ponteiro como nulo
     vetor->tamanho = 0;  // Reseta o tamanho
@@ -29,7 +29,7 @@ void liberar(VetorDinamico *vetor) {
 }
 
 // Função para imprimir o vetor dinâmico
-void imprimir(VetorDinamico *vetor) {
+void imprimirVetorDinamico(VetorDinamico *vetor) {
     for (int i = 0; i < vetor->tamanho; i++) {
         printf("%d ", vetor->dados[i]);
     }

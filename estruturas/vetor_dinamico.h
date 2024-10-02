@@ -9,9 +9,9 @@ typedef struct {
 } VetorDinamico;
 
 // Declaração das funções
-void inicializar(VetorDinamico *vetor, int capacidade_inicial);
-void adicionar(VetorDinamico *vetor, int valor);
-void liberar(VetorDinamico *vetor);
-void imprimir(VetorDinamico *vetor);
+void iniciarVetorDinamico(VetorDinamico *vetor, int capacidade_inicial);
+void addVetorDinamico(VetorDinamico *vetor, int valor);
+void liberarVetorDinamico(VetorDinamico *vetor);
+void imprimirVetorDinamico(VetorDinamico *vetor);
 
 #endif
