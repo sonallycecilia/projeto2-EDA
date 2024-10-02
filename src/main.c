@@ -25,15 +25,11 @@ int* lerArquivo(const char *filePath) {
 int main() {
     const char *caminhoArquivo = "C:\\Users\\sonal\\Documents\\vs projects\\projeto2-EDA\\src\\inserir_remover.txt"; // Caminho do arquivo a ser lido
 
-    int *inserir_remover = lerArquivo(caminhoArquivo);
     VetorDinamico vetor;
     ListaEncadeada lista;
-    
 
+    int *inserir_remover = lerArquivo(caminhoArquivo);
     
     free(inserir_remover); // Libera a memória alocada
     return 0;
 }
-
-
-
