@@ -1,10 +1,20 @@
+#define MAIN_OVERRIDDEN
+
+#define INICIAL_INSERTIONS 1000000
+#define TOTAL_INSERTIONS 2000000
+#define PUSH 1
+#define POP 0
+
 #include <stdio.h>
 #include <stdlib.h>
-#include "../estruturas/lista_encadeada.h"
-#include "../estruturas/vetor_dinamico.h"
+#include <time.h>
+#include "../estruturas/stack.c"
 
+
+
+// 1 para inserir e 0 para remover.
 int* lerArquivo(const char *filePath) {
-    int *array = malloc(2000000 * sizeof(int));
+    int *array = malloc(TOTAL_INSERTIONS * sizeof(int));
 
     FILE *file = fopen(filePath, "r"); 
     if (file == NULL) {
@@ -22,14 +32,45 @@ int* lerArquivo(const char *filePath) {
     return array;
 }
 
+#include <stdio.h>
+#include <time.h>
+
 int main() {
-    const char *caminhoArquivo = "C:\\Users\\sonal\\Documents\\vs projects\\projeto2-EDA\\src\\inserir_remover.txt"; // Caminho do arquivo a ser lido
+    // Declaring runtime vars
+    clock_t start, end;
+    double timeUsed;
 
-    VetorDinamico vetor;
-    ListaEncadeada lista;
+    // Reading the txt "inserir_remover"
+    int *array;
+    array = lerArquivo("inserir_remover.txt");
 
-    int *inserir_remover = lerArquivo(caminhoArquivo);
+    // Inicializing the Stack
+    Node *stack = NULL; // head
+    for(int i = 0; i < INICIAL_INSERTIONS; i++ ){
+        push(&stack, 2);
+    } // Medir a memória consumida após essas inserções inicias tanto na Lista encadeada quanto no Vetor dinâmico
     
-    free(inserir_remover); // Libera a memória alocada
+    // 2_000_000 pop n/or push
+    start = clock();
+    for(int i = 0; i < TOTAL_INSERTIONS; i++){
+        switch (array[i]){
+            case PUSH:
+                push(&stack, i);
+                break;
+
+            case POP:
+                pop(&stack);
+                break;
+
+            default:
+                printf("An error occurred while reading the file");
+                break;
+        }
+    }
+    end = clock();
+    timeUsed = ((double)(end - start)) / CLOCKS_PER_SEC;
+
+    printf("Execution Time: %f seconds\nEmpty Stack: %d\nInsertions: %d\nRemovals: %d\nSize: %d\nTotalInsertions: %d", timeUsed, countEmptyStack, insertions, removals, size(&stack), insertions+removals);
+
     return 0;
 }
