@@ -8,6 +8,4 @@ typedef struct node
     struct node *next;
 } Node;
 
-Node* createNode(int data);
-
 #endif

@@ -1,5 +1,5 @@
-/*ref: https://www.geeksforgeeks.org/stack-using-linked-list-in-c/ */
-#include "stack.h"
+/*ref: https://www.geeksforgeeks.org/stack-using-linked-list-in-c/ (adapted)*/
+#include "stackLinkedList.h"
 // C program to implement a stack using linked list
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,29 +7,31 @@
 //  ________LINKED LIST UTILITY FUNCITON____________
 
 // Count globals
-int insertions = 0;
-int removals = 0;
-int countEmptyStack = 0;
+int insertionsSll = 0;
+int removalsSll = 0;
+int countEmptyStackSll = 0;
+size_t memoryAllocatedSll = 0;
 
 // linked list utility function
-Node* createNode(int data)
-{
+Node* createNode(int data) {
     // allocating memory
     Node* newNode = (Node*)malloc(sizeof(Node));
 
     // if memory allocation is failed
-    if (newNode == NULL)
+    if (newNode == NULL){
         return NULL;
-
+    }
+        
     // putting data in the Node
     newNode->data = data;
     newNode->next = NULL;
+
+    memoryAllocatedSll += sizeof(Node);
     return newNode;
 }
 
 // fuction to insert data before the head Node
-int insertBeforeHead(Node** head, int data)
-{
+int insertBeforeHead(Node** head, int data) {
     // creating new Node
     Node* newNode = createNode(data);
     // if malloc fail, return error code
@@ -40,27 +42,26 @@ int insertBeforeHead(Node** head, int data)
     if (*head == NULL) {
         *head = newNode;
 
-		insertions++; // This is gonna be incremented once here
+		insertionsSll++; // This is gonna be incremented once here
         return 0;
     }
 
     newNode->next = *head;
     *head = newNode;
 
-	insertions++;
+	insertionsSll++;
     return 0;
 }
 
 // deleting head Node
-int deleteHead(Node** head)
-{
+int deleteHead(Node** head) {
     // no need to check for empty stack as it is already
     // being checked in the caller function
     Node* temp = *head;
     *head = (*head)->next;
     free(temp);
 
-	removals++;
+	removalsSll++;
     return 0;
 }
 
@@ -70,8 +71,7 @@ int deleteHead(Node** head)
 int isEmpty(Node** stack) { return *stack == NULL; }
 
 // Function to push elements to the stack
-void push(Node** stack, int data)
-{
+void push(Node** stack, int data) {
     // inserting the data at the beginning of the linked
     // list stack
     // if the insertion function returns the non - zero
@@ -82,12 +82,11 @@ void push(Node** stack, int data)
 }
 
 // Function to pop an element from  the stack
-int pop(Node** stack)
-{
+int pop(Node** stack) {
     // checking underflow condition
     if (isEmpty(stack)) {
         printf("Stack Underflow\n");
-		countEmptyStack++;
+		countEmptyStackSll++;
         return -1;
     }
 
@@ -96,8 +95,7 @@ int pop(Node** stack)
 }
 
 // Function to return the topmost element of the stack
-int peek(Node** stack)
-{
+int peek(Node** stack) {
     // check for empty stack
     if (!isEmpty(stack))
         return (*stack)->data;
@@ -106,8 +104,7 @@ int peek(Node** stack)
 }
 
 // Function to print the Stack
-void printStack(Node** stack)
-{
+void printStack(Node** stack) {
     Node* temp = *stack;
     while (temp != NULL) {
         printf("%d-> ", temp->data);
@@ -116,7 +113,7 @@ void printStack(Node** stack)
     printf("\n");
 }
 
-int size(Node** stack){
+int size(Node** stack) {
 	int size = 0;
 	Node* temp = *stack;
 	while (temp != NULL){
@@ -128,8 +125,7 @@ int size(Node** stack){
 
 // driver code
 #ifndef MAIN_OVERRIDDEN
-int main()
-{
+int main() {
     // Initialize a new stack top pointer
     Node *stack = NULL;
 
