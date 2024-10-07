@@ -9,7 +9,9 @@
 #include <time.h>
 //#include "../estruturas/stackLinkedList.c"
 //#include "../estruturas/stackDynamicArray.c"
-#include "../estruturas/queueLinkedList.c"
+//#include "../estruturas/queueLinkedList.c"
+#include "../estruturas/queueDynamicArray.c"
+
 
 
 
@@ -114,6 +116,7 @@ void testStackDynamicArray() {
 }
 */
 
+/*
 void testQueueLinkedList() {
     // Declaring runtime vars
     clock_t start, end;
@@ -150,13 +153,53 @@ void testQueueLinkedList() {
     end = clock();  
     timeUsed = ((double)(end - start)) / CLOCKS_PER_SEC;
 
-    printf("Execution Time: %f seconds\nEmpty queue: %d\nInsertionsQLL: %d\nRemovalsQLL: %d\nTotalInsertionsQLL: %d\nMemory Allocated: %d Mb\nSizeOf stuct: %d\nCapacity: %d", timeUsed, countEmptyQLL, insertionsQLL, removalsQLL, insertionsQLL+removalsQLL, memoryAllocatedQLL/(1024*1024), sizeof(queue));
+    printf("Execution Time: %f seconds\nEmpty queue: %d\nInsertionsQLL: %d\nRemovalsQLL: %d\nTotalInsertionsQLL: %d\nMemory Allocated: %d Mb\nSizeOf stuct: %d", timeUsed, countEmptyQLL, insertionsQLL, removalsQLL, insertionsQLL+removalsQLL, memoryAllocatedQLL/(1024*1024), sizeof(queue));
+}
+*/
+void testQueueDynamicArray() {
+    // Declaring runtime vars
+    clock_t start, end;
+    double timeUsed;
+
+    // Reading the txt "inserir_remover"
+    int *array;
+    array = lerArquivo("inserir_remover.txt");
+
+    // Inicializing the queue
+    Queue *queue = createQueue(1);
+    for (int i = 0; i < INICIAL_INSERTIONS; i++) {
+        enqueue(queue, 2);
+    }
+
+    // Medir a memória consumida após essas inserções inicias tanto na Lista encadeada quanto no Vetor dinâmico
+    // 2_000_000 pop n/or push
+    start = clock();
+    for(int i = 0; i < TOTAL_INSERTIONS; i++){
+        switch (array[i]){
+            case PUSH:
+                enqueue(queue, i);
+                break;
+
+            case POP:
+                dequeue(queue);
+                break;
+
+            default:
+                printf("An error occurred while reading the file");
+                break;
+        }
+    }
+    end = clock();  
+    timeUsed = ((double)(end - start)) / CLOCKS_PER_SEC;
+
+    printf("Execution Time: %f seconds\nEmpty queue: %d\nInsertionsQDA: %d\nRemovalsQDA: %d\nTotalInsertionsQDA: %d\nMemory Allocated: %d Mb\nSizeOf stuct: %d\nCapacity: %d", timeUsed, countEmptyQDA, insertionsQDA, removalsQDA, insertionsQDA+removalsQDA, memoryAllocatedQDA/(1024*1024), sizeof(queue), queue->capacity);
 }
 
 
 int main(){
     //testStackLinkedList();
     //testStackDynamicArray();
-    testQueueLinkedList();
+    //testQueueLinkedList();
+    testQueueDynamicArray();
     return 0;
 }
